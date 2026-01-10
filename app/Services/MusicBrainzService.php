@@ -20,37 +20,6 @@ class MusicBrainzService
         return null;
     }
 
-
-
-    /**
-     * Fetch artist portrait from MusicBrainz (if available).
-     * @param string $artistId
-     * @return string|null
-     */
-    public function getArtistPortrait(string $artistId): ?string
-    {
-        $url = "https://musicbrainz.org/ws/2/artist/{$artistId}?inc=url-rels&fmt=json";
-        $response = \Illuminate\Support\Facades\Http::timeout(5)->get($url);
-        if ($response->successful()) {
-            $data = $response->json();
-            \Log::info('MusicBrainz API response', ['data' => $data]);
-            if (isset($data['relations'])) {
-                foreach ($data['relations'] as $rel) {
-                    if ($rel['type'] === 'image' && isset($rel['url']['resource'])) {
-                        $resource = $rel['url']['resource'];
-                        \Log::info('MusicBrainz image resource', ['resource' => $resource]);
-                        if (strpos($resource, 'commons.wikimedia.org/wiki/File:') !== false) {
-                            $wikimediaUrl = $this->getWikimediaImageUrl($resource);
-                            \Log::info('Wikimedia direct image URL', ['url' => $wikimediaUrl]);
-                            return $wikimediaUrl;
-                        }
-                        return $resource;
-                    }
-                }
-            }
-        }
-        return null;
-    }
     /**
      * Validate if an artist exists on MusicBrainz.
      *

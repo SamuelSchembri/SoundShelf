@@ -32,7 +32,6 @@ class ArtistController extends Controller
         ]);
 
         // External validation with MusicBrainz
-
         $mbResponse = $musicBrainz->artistExists($validated['name']);
         if (!is_array($mbResponse) || !isset($mbResponse['id'])) {
             $errorMsg = $mbResponse === false
@@ -40,8 +39,6 @@ class ArtistController extends Controller
                 : $mbResponse;
             return back()->withErrors(['name' => $errorMsg])->withInput();
         }
-
-        $portraitUrl = null;
 
         $artist = Artist::create([
             'name' => $validated['name'],
