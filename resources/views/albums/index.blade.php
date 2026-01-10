@@ -9,7 +9,7 @@
     <input type="text" name="search" class="px-4 py-2 rounded-lg bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-pink-400" placeholder="Search albums..." value="{{ request('search') }}">
     <select name="genre" class="px-4 py-2 rounded-lg bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-pink-400">
         <option value="">All Genres</option>
-        @foreach($albums->pluck('genre')->unique()->filter() as $genre)
+        @foreach($genres as $genre)
             <option value="{{ $genre }}" @selected(request('genre') == $genre)> {{ $genre }} </option>
         @endforeach
     </select>

@@ -24,7 +24,16 @@ class AlbumController extends Controller
             $query->orderBy('year', 'desc');
         }
         $albums = $query->paginate(10);
-        return view('albums.index', compact('albums'));
+
+        // Fetch all distinct genres for the filter dropdown.
+        $genres = Album::query()
+            ->whereNotNull('genre')
+            ->select('genre')
+            ->distinct()
+            ->orderBy('genre')
+            ->pluck('genre');
+
+        return view('albums.index', compact('albums', 'genres'));
     }
 
     public function create()
