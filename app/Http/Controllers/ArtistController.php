@@ -36,10 +36,7 @@ class ArtistController extends Controller
         // External validation with MusicBrainz
         $mbResponse = $musicBrainz->artistExists($validated['name']); // returns array with 'id' and 'name', false, or error message
         if (!is_array($mbResponse) || !isset($mbResponse['id'])) { // Artist not found or error
-            $errorMsg = $mbResponse === false 
-                ? 'Artist not found on MusicBrainz. Please check the spelling or try another name.' // ? artist not found
-                : $mbResponse; // some error message from service
-            return back()->withErrors(['name' => $errorMsg])->withInput();
+            return back()->withErrors(['name' => 'artist not found'])->withInput(); // Return with error
         }
 
         $artist = Artist::create([ // Create artist in local DB
