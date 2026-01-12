@@ -10,7 +10,7 @@ class Song extends Model
     use HasFactory;
     protected $fillable = ['album_id', 'title', 'track_number', 'duration'];
 
-    public function album(): BelongsTo
+    public function album(): BelongsTo // A Song belongs to one Album
     {
         return $this->belongsTo(Album::class);
     }

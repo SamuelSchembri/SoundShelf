@@ -13,7 +13,9 @@ class PlaylistController extends Controller
 {
     public function index()
     {
-        $playlists = Auth::user()->playlists()->orderBy('name')->paginate(10);
+        // Fetch only the authenticated user's playlists (user ownership)
+        // Ordered alphabetically and paginated for performance and usability
+        $playlists = Auth::user()->playlists()->orderBy('name')->paginate(10);  
         return view('playlists.index', compact('playlists'));
     }
 
@@ -24,9 +26,11 @@ class PlaylistController extends Controller
 
     public function store(Request $request)
     {
+        // Validate required playlist name
         $validated = $request->validate([
             'name' => 'required',
         ]);
+        // Create playlist through authenticated user to enforce ownership
         $playlist = Auth::user()->playlists()->create([
             'name' => $validated['name'],
             'slug' => Str::slug($validated['name']),

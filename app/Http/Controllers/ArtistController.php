@@ -12,7 +12,7 @@ class ArtistController extends Controller
 {
     public function index(Request $request)
     {
-        // this code is for searching and paginating artists
+        // this code is for searching and paginating artists 
         $query = Artist::query();
         if ($search = $request->input('search')) {
             $query->where('name', 'like', "%$search%");

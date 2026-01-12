@@ -11,12 +11,12 @@ class Playlist extends Model
     use HasFactory;
     protected $fillable = ['user_id', 'name', 'slug'];
 
-    public function user(): BelongsTo
+    public function user(): BelongsTo // A Playlist belongs to one User
     {
         return $this->belongsTo(User::class);
     }
 
-    public function songs(): BelongsToMany
+    public function songs(): BelongsToMany // A Playlist has many Songs (many-to-many relationship)
     {
         return $this->belongsToMany(Song::class, 'playlist_song');
     }

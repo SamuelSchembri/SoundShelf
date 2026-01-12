@@ -11,7 +11,7 @@ class AlbumController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Album::query();
+        $query = Album::query(); 
         if ($search = $request->input('search')) {
             $query->where('title', 'like', "%$search%");
         }
@@ -19,13 +19,14 @@ class AlbumController extends Controller
             $query->where('genre', $genre);
         }
         if ($sort = $request->input('sort')) {
-            $query->orderBy($sort, 'asc');
+            $direction = $request->input('direction', 'asc'); // default to ascending
+            $query->orderBy($sort, $direction); // Sort by specified field and direction
         } else {
-            $query->orderBy('year', 'desc');
+            $query->orderBy('year', 'desc'); // Default sort by year descending
         }
-        $albums = $query->paginate(10);
+        $albums = $query->paginate(10); // retrieve 10 albums per page
 
-        // Fetch all distinct genres for the filter dropdown.
+        // Fetch all unique genres for the filter dropdown. (which arent null)
         $genres = Album::query()
             ->whereNotNull('genre')
             ->select('genre')

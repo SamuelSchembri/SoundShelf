@@ -13,7 +13,7 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-// Artists
+// Artists full CRUD
 Route::get('/artists', [ArtistController::class, 'index'])->name('artists.index');
 Route::get('/artists/create', [ArtistController::class, 'create'])->name('artists.create');
 Route::post('/artists', [ArtistController::class, 'store'])->name('artists.store');
@@ -22,7 +22,7 @@ Route::get('/artists/{artist:slug}/edit', [ArtistController::class, 'edit'])->na
 Route::put('/artists/{artist:slug}', [ArtistController::class, 'update'])->name('artists.update');
 Route::delete('/artists/{artist:slug}', [ArtistController::class, 'destroy'])->name('artists.destroy');
 
-// Albums
+// Albums full CRUD
 Route::get('/albums', [AlbumController::class, 'index'])->name('albums.index');
 Route::get('/albums/create', [AlbumController::class, 'create'])->name('albums.create');
 Route::post('/albums', [AlbumController::class, 'store'])->name('albums.store');
@@ -31,7 +31,7 @@ Route::get('/albums/{album:slug}/edit', [AlbumController::class, 'edit'])->name(
 Route::put('/albums/{album:slug}', [AlbumController::class, 'update'])->name('albums.update');
 Route::delete('/albums/{album:slug}', [AlbumController::class, 'destroy'])->name('albums.destroy');
 
-// Songs
+// Songs full CRUD
 Route::get('/songs', [SongController::class, 'index'])->name('songs.index');
 Route::get('/songs/create', [SongController::class, 'create'])->name('songs.create');
 Route::post('/songs', [SongController::class, 'store'])->name('songs.store');
@@ -40,7 +40,7 @@ Route::get('/songs/{song}/edit', [SongController::class, 'edit'])->name('songs.e
 Route::put('/songs/{song}', [SongController::class, 'update'])->name('songs.update');
 Route::delete('/songs/{song}', [SongController::class, 'destroy'])->name('songs.destroy');
 
-// Playlists (user-specific, slug-based)
+// Playlists (user-specific, slug-based) full CRUD
 Route::middleware(['auth'])->group(function () {
     Route::get('/playlists', [PlaylistController::class, 'index'])->name('playlists.index');
     Route::get('/playlists/create', [PlaylistController::class, 'create'])->name('playlists.create');
@@ -51,16 +51,16 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/playlists/{playlist:slug}', [PlaylistController::class, 'destroy'])->name('playlists.destroy');
 });
 
-// Dashboard 
+// Dashboard for authenticated users
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-// Profile Management 
+// Profile Management Routes
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php'; // Authentication routes
+require __DIR__.'/auth.php'; // makes auth routes available
